@@ -1,0 +1,8 @@
+nicegui
+fastapi
+sqlalchemy
+asyncpg
+python-dotenv
+httpx
+uvicorn
+aiosqlite
