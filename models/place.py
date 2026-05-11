@@ -8,6 +8,10 @@ class PlaceCategory(enum.Enum):
     park = "park"
     pool = "pool"
     badminton = "badminton"
+    tennis = "tennis"
+    pickleball = "pickleball"
+    hospital = "hospital"
+    police = "police"
 
 class Place(Base):
     __tablename__ = "places"

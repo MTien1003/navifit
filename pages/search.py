@@ -54,6 +54,10 @@ async def search_page(q: str = '', lat: float = 21.006847, lng: float = 105.8430
         'park': '🌳 Công viên',
         'pool': '🏊 Hồ bơi',
         'badminton': '🏸 Cầu lông',
+        'tennis': '🎾 Tennis',
+        'pickleball': '🏓 Pickleball',
+        'hospital': '🏥 Bệnh viện',
+        'police': '👮 Công an',
     }
 
     # Từ khóa → category
@@ -62,6 +66,10 @@ async def search_page(q: str = '', lat: float = 21.006847, lng: float = 105.8430
         'park': 'park', 'công viên': 'park', 'vườn hoa': 'park',
         'pool': 'pool', 'hồ bơi': 'pool', 'bể bơi': 'pool', 'bơi': 'pool',
         'badminton': 'badminton', 'cầu lông': 'badminton', 'sân cầu': 'badminton',
+        'tennis': 'tennis', 'sân tennis': 'tennis',
+        'pickleball': 'pickleball', 'sân pickleball': 'pickleball', 'pickball': 'pickleball',
+        'hospital': 'hospital', 'bệnh viện': 'hospital',
+        'police': 'police', 'công an': 'police', 'trụ sở công an': 'police', 'đồn công an': 'police',
     }
 
     async def fetch_places(japanese_only: bool = False) -> list:
@@ -110,7 +118,7 @@ async def search_page(q: str = '', lat: float = 21.006847, lng: float = 105.8430
     # ── Header ────────────────────────────────────────────────────────────────
     with ui.header().classes('items-center bg-white text-black shadow-md px-4 py-3 justify-between'):
         with ui.row().classes('items-center gap-2 flex-1 mr-4'):
-            ui.button(icon='arrow_back', on_click=lambda: ui.navigate.to('/')).props('flat round dense')
+            ui.html('<a href="/"><img src="/static/Logo.png" style="height:40px;width:auto;display:block;cursor:pointer;flex-shrink:0"></a>')
             with ui.row().classes('items-center flex-1 bg-gray-100 rounded-full px-3 py-1 gap-1'):
                 ui.icon('search').classes('text-xl').style('color:#111;font-weight:900')
                 search_input = ui.input(
@@ -289,10 +297,14 @@ async def search_page(q: str = '', lat: float = 21.006847, lng: float = 105.8430
                 window.places = {places_json};
 
                 var CATEGORY_ICON = {{
-                    'gym':       {{ emoji: '🏋️', bg: '#E3F2FD', border: '#1976D2' }},
-                    'park':      {{ emoji: '🌳', bg: '#E8F5E9', border: '#388E3C' }},
-                    'pool':      {{ emoji: '🏊', bg: '#E0F7FA', border: '#0097A7' }},
-                    'badminton': {{ emoji: '🏸', bg: '#FFF3E0', border: '#F57C00' }}
+                    'gym':        {{ emoji: '🏋️', bg: '#E3F2FD', border: '#1976D2' }},
+                    'park':       {{ emoji: '🌳', bg: '#E8F5E9', border: '#388E3C' }},
+                    'pool':       {{ emoji: '🏊', bg: '#E0F7FA', border: '#0097A7' }},
+                    'badminton':  {{ emoji: '🏸', bg: '#FFF3E0', border: '#F57C00' }},
+                    'tennis':     {{ emoji: '🎾', bg: '#F3E5F5', border: '#7B1FA2' }},
+                    'pickleball': {{ emoji: '🏓', bg: '#FFF8E1', border: '#F9A825' }},
+                    'hospital':   {{ emoji: '🏥', bg: '#FFEBEE', border: '#C62828' }},
+                    'police':     {{ emoji: '👮', bg: '#E8EAF6', border: '#283593' }}
                 }};
 
                 function makePlaceIcon(category) {{
