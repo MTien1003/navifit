@@ -44,6 +44,7 @@ async def detail_page(place_id: int, ulat: float = 21.006847, ulng: float = 105.
     # ── 2. Header ──────────────────────────────────────────────────────────────
     with ui.header().classes('items-center bg-white text-black shadow-md px-4 py-3 justify-between'):
         with ui.row().classes('items-center gap-2 flex-1 mr-4'):
+            ui.html('<a href="/"><img src="/static/Logo.png" style="height:40px;width:auto;display:block;cursor:pointer;flex-shrink:0"></a>')
             ui.button(icon='arrow_back', on_click=ui.navigate.back).props('flat round dense')
             with ui.row().classes('items-center flex-1 bg-gray-100 rounded-full px-3 py-1 gap-1'):
                 ui.icon('search').classes('text-xl').style('color:#111;font-weight:900')

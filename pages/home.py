@@ -24,6 +24,10 @@ CAT_KEYWORDS = {
     'park': 'park', 'công viên': 'park', 'vườn hoa': 'park',
     'pool': 'pool', 'hồ bơi': 'pool', 'bể bơi': 'pool', 'bơi': 'pool',
     'badminton': 'badminton', 'cầu lông': 'badminton', 'sân cầu': 'badminton',
+    'tennis': 'tennis', 'sân tennis': 'tennis',
+    'pickleball': 'pickleball', 'sân pickleball': 'pickleball', 'pickball': 'pickleball',
+    'hospital': 'hospital', 'bệnh viện': 'hospital',
+    'police': 'police', 'công an': 'police', 'trụ sở công an': 'police', 'đồn công an': 'police',
 }
 
 def _aqi_badge(v: int) -> tuple:
@@ -37,7 +41,7 @@ async def home_page():
     ui.page_title('NaviFit — Trang chủ')
     # 1. Header cố định
     with ui.header().classes('items-center justify-between bg-white text-black shadow-md px-6 py-3'):
-        ui.label('NaviFit').classes('text-3xl font-extrabold text-blue-600 cursor-pointer').on('click', lambda: ui.navigate.to('/'))
+        ui.html('<a href="/"><img src="/static/Logo.png" style="height:48px;width:auto;display:block;cursor:pointer"></a>')
 
         async def handle_search(e):
             q = search_input.value
@@ -224,10 +228,14 @@ async def home_page():
 
         // Icon theo category (dùng string concat, không dùng template literal)
         var CATEGORY_ICON = {
-            'gym':       { emoji: '🏋️', bg: '#E3F2FD', border: '#1976D2' },
-            'park':      { emoji: '🌳', bg: '#E8F5E9', border: '#388E3C' },
-            'pool':      { emoji: '🏊', bg: '#E0F7FA', border: '#0097A7' },
-            'badminton': { emoji: '🏸', bg: '#FFF3E0', border: '#F57C00' }
+            'gym':        { emoji: '🏋️', bg: '#E3F2FD', border: '#1976D2' },
+            'park':       { emoji: '🌳', bg: '#E8F5E9', border: '#388E3C' },
+            'pool':       { emoji: '🏊', bg: '#E0F7FA', border: '#0097A7' },
+            'badminton':  { emoji: '🏸', bg: '#FFF3E0', border: '#F57C00' },
+            'tennis':     { emoji: '🎾', bg: '#F3E5F5', border: '#7B1FA2' },
+            'pickleball': { emoji: '🏓', bg: '#FFF8E1', border: '#F9A825' },
+            'hospital':   { emoji: '🏥', bg: '#FFEBEE', border: '#C62828' },
+            'police':     { emoji: '👮', bg: '#E8EAF6', border: '#283593' }
         };
 
         function makePlaceIcon(category) {
