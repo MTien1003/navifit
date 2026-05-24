@@ -34,9 +34,15 @@ def add_sos_button():
         with container:
             if not channels:
                 ui.label('Không thể tải danh sách SOS').classes('text-red-500 text-center w-full')
-            
+
             for ch in channels:
                 icon = ICON_MAP.get(ch['type'], '📞')
+                phone = ch['phone']
+
+                async def copy_phone(p=phone):
+                    await ui.run_javascript(f"navigator.clipboard.writeText('{p}')")
+                    ui.notify(f'Đã copy: {p}', type='positive', position='top')
+
                 with ui.card().classes('w-full p-3 shadow-sm border'):
                     with ui.row().classes('items-center gap-3 w-full flex-nowrap'):
                         ui.label(icon).classes('text-3xl')
@@ -44,10 +50,10 @@ def add_sos_button():
                             ui.label(ch['name']).classes('font-semibold text-base leading-tight')
                             if ch.get('name_ja'):
                                 ui.label(ch['name_ja']).classes('text-gray-400 text-sm')
-                            ui.label(ch['phone']).classes('text-blue-600 font-bold text-lg mt-1')
-                        with ui.column().classes('gap-2 items-end'):
-                            ui.link('📞 Gọi', target=f"tel:{ch['phone']}").classes('bg-green-500 text-white px-3 py-1 rounded-lg text-sm no-underline font-medium hover:bg-green-600')
-                            ui.link('💬 Nhắn', target=f"sms:{ch['phone']}").classes('bg-blue-500 text-white px-3 py-1 rounded-lg text-sm no-underline font-medium hover:bg-blue-600')
+                            ui.label(phone).classes('text-blue-600 font-bold text-lg mt-1')
+                        with ui.column().classes('gap-1 items-end'):
+                            ui.button('📋 Copy', on_click=copy_phone) \
+                                .props('color=grey-6 dense no-caps').classes('text-sm px-3')
             
     # Ép z-index cho wrapper sticky để nổi trên Leaflet map
     ui.add_head_html('<style>.q-page-sticky { z-index: 9999 !important; }</style>')
