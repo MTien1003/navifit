@@ -3,14 +3,15 @@ import json
 
 # 7 vùng an toàn cố định — phủ các khu vực có mật độ cảnh sát + bệnh viện cao tại Hà Nội.
 # Vòng tròn màu xanh lá, nét đứt, kích cỡ theo mật độ.
+# bounds = [[south, west], [north, east]]
 SAFETY_ZONES = [
-    {"name": "Hoàn Kiếm – Hai Bà Trưng", "lat": 21.0200, "lng": 105.8510, "radius": 1800},  # mật độ cao nhất
-    {"name": "Ba Đình – Đống Đa",         "lat": 21.0250, "lng": 105.8360, "radius": 2000},  # nhiều BV lớn
-    {"name": "Cầu Giấy",                 "lat": 21.0380, "lng": 105.8000, "radius": 1400},
-    {"name": "Tây Hồ",                   "lat": 21.0530, "lng": 105.8280, "radius": 1100},
-    {"name": "Thanh Xuân",               "lat": 20.9950, "lng": 105.8150, "radius": 1200},
-    {"name": "Hoàng Mai",                "lat": 20.9880, "lng": 105.8620, "radius": 1200},
-    {"name": "Long Biên",                "lat": 21.0330, "lng": 105.8920, "radius": 1000},
+    {"name": "Hoàn Kiếm – Hai Bà Trưng", "bounds": [[21.012, 105.840], [21.028, 105.862]]},
+    {"name": "Ba Đình – Đống Đa",         "bounds": [[21.016, 105.826], [21.034, 105.847]]},
+    {"name": "Cầu Giấy",                 "bounds": [[21.030, 105.791], [21.044, 105.808]]},
+    {"name": "Tây Hồ",                   "bounds": [[21.048, 105.820], [21.060, 105.836]]},
+    {"name": "Thanh Xuân",               "bounds": [[20.989, 105.808], [21.002, 105.822]]},
+    {"name": "Hoàng Mai",                "bounds": [[20.981, 105.854], [20.994, 105.868]]},
+    {"name": "Long Biên",                "bounds": [[21.027, 105.885], [21.039, 105.898]]},
 ]
 
 
@@ -28,25 +29,26 @@ def add_safety_scripts():
             window.hideSafetyOverlay(mapId);
             window.safetyLayersByMap[mapId] = [];
 
-            // 1. Vòng tròn xanh cố định
+            // 1. Hình chữ nhật xanh cố định
             window.safetyZones.forEach(function(zone) {{
-                var circle = L.circle([zone.lat, zone.lng], {{
-                    radius: zone.radius,
+                var rect = L.rectangle(zone.bounds, {{
                     color: '#2E7D32',
                     fillColor: '#4CAF50',
-                    fillOpacity: 0.12,
+                    fillOpacity: 0.10,
                     weight: 2.5,
                     dashArray: '10, 7',
                     interactive: false
                 }}).addTo(mapObj);
 
+                // Label ở góc trên-trái của hình chữ nhật
+                var labelLatLng = [zone.bounds[1][0], zone.bounds[0][1]];
                 var label = L.tooltip({{
                     permanent: true,
-                    direction: 'center',
+                    direction: 'right',
                     className: 'safety-zone-tooltip',
                     opacity: 1
                 }})
-                .setLatLng([zone.lat, zone.lng])
+                .setLatLng(labelLatLng)
                 .setContent(
                     '<div style="background:#2E7D32;color:#fff;padding:3px 9px;' +
                     'border-radius:6px;font-weight:bold;font-size:11px;' +
@@ -55,7 +57,7 @@ def add_safety_scripts():
                 )
                 .addTo(mapObj);
 
-                window.safetyLayersByMap[mapId].push(circle);
+                window.safetyLayersByMap[mapId].push(rect);
                 window.safetyLayersByMap[mapId].push(label);
             }});
 
