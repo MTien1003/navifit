@@ -179,7 +179,7 @@ async def home_page():
             ):
                 ui.icon('search').classes('text-xl flex-shrink-0').style('color:#111;font-weight:900')
                 search_input = ui.input(
-                    placeholder='Tìm địa điểm tập luyện...',
+                    placeholder='トレーニング場所を検索...',
                     on_change=on_input
                 ).classes('flex-1').props('borderless dense clearable')
             search_input.on('keydown.enter', handle_search)
@@ -313,7 +313,7 @@ async def home_page():
         });
         var userMarker = L.marker([defaultLat, defaultLng], {icon: userIcon})
             .addTo(map)
-            .bindPopup('<b>Vị trí của bạn</b><br><small>Nhà B1 - Đại học Bách khoa Hà Nội</small>')
+            .bindPopup('<b>現在地</b><br><small>B1棟 - ハノイ工科大学</small>')
             .openPopup();
 
         fetchNearbyPlaces(defaultLat, defaultLng);
@@ -324,7 +324,7 @@ async def home_page():
                     window.currentLat = pos.coords.latitude;
                     window.currentLng = pos.coords.longitude;
                     userMarker.setLatLng([window.currentLat, window.currentLng]);
-                    userMarker.bindPopup('<b>Vị trí hiện tại của bạn</b>');
+                    userMarker.bindPopup('<b>現在地</b>');
                     map.setView([window.currentLat, window.currentLng], 15);
                     fetchNearbyPlaces(window.currentLat, window.currentLng);
                 },

@@ -147,7 +147,7 @@ async def search_page(q: str = '', lat: float = 21.006847, lng: float = 105.8430
                 ui.icon('search').classes('text-xl').style('color:#111;font-weight:900')
                 search_input = ui.input(
                     value=q,
-                    placeholder='Tìm địa điểm tập luyện...'
+                    placeholder='トレーニング場所を検索...'
                 ).props('borderless dense').classes('flex-1 text-sm bg-transparent')
                 search_input.on('keydown.enter', lambda: ui.navigate.to(
                     f'/search?q={search_input.value}&lat={lat}&lng={lng}'))
@@ -252,6 +252,10 @@ async def search_page(q: str = '', lat: float = 21.006847, lng: float = 105.8430
                                     ui.label(place.get('name', '')).classes(
                                         'font-semibold text-gray-800 text-sm leading-tight'
                                     ).style('overflow:hidden;text-overflow:ellipsis;white-space:nowrap')
+                                    if place.get('name_ja'):
+                                        ui.label(place['name_ja']).classes(
+                                            'text-gray-400 text-xs leading-tight'
+                                        ).style('overflow:hidden;text-overflow:ellipsis;white-space:nowrap')
                                     if place.get('address'):
                                         ui.label(place['address']).classes('text-gray-400 text-xs').style(
                                             'overflow:hidden;text-overflow:ellipsis;white-space:nowrap')
