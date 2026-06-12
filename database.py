@@ -26,15 +26,22 @@ async def seed_data():
     import random
     from models import Place, SOSChannel, PlaceCategory, SOSType
     from models.best_time import BestTime
-    from sqlalchemy import delete
+    from sqlalchemy import delete, select, func
+
+    seed_enabled = os.getenv("SEED_ON_STARTUP", "true").lower() == "true"
 
     async with async_session() as session:
+        if not seed_enabled:
+            existing = await session.execute(select(func.count(Place.id)))
+            if existing.scalar() > 0:
+                print("Seed skipped: SEED_ON_STARTUP=false and places already exist.")
+                return
+
         # Xóa data cũ trước khi seed mới
         await session.execute(delete(BestTime))
         await session.execute(delete(Place))
         await session.execute(delete(SOSChannel))
-        await session.commit()
-
+        
         # ── Địa điểm tập luyện và dịch vụ tại Hà Nội ──────────────────────────
         places = [
             # PARK
@@ -354,6 +361,10 @@ async def seed_data():
                         hour=hour,
                         score=base_score(day, hour)
                     ))
-        session.add_all(best_time_records)
+        BATCH_SIZE = 500
+        for i in range(0, len(best_time_records), BATCH_SIZE):
+            session.add_all(best_time_records[i:i + BATCH_SIZE])
+            await session.commit()
+        print(f"Seeded best_times batch {i // BATCH_SIZE + 1}/{(len(best_time_records) + BATCH_SIZE - 1) // BATCH_SIZE}")
 
-        await session.commit()
+        
